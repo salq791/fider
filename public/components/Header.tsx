@@ -5,6 +5,7 @@ import { HStack } from "./layout"
 import { Trans } from "@lingui/react/macro"
 import { i18n } from "@lingui/core"
 import IconRss from "@fider/assets/images/heroicons-rss.svg"
+import IconArrowLeftRect from "@fider/assets/images/heroicons-arrowleft-rectangle.svg"
 import "./Header.scss"
 
 interface HeaderProps {
@@ -43,6 +44,15 @@ export const Header = (props: HeaderProps) => {
               </a>
               {fider.session.isAuthenticated && (
                 <HStack spacing={2}>
+                  <a
+                    href="https://tradelineconsulting.com/portal"
+                    className="c-portal-link c-themeswitcher"
+                    title="Back to Portal"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Icon sprite={IconArrowLeftRect} className="h-6 text-gray-500" />
+                  </a>
                   {fider.session.tenant.isFeedEnabled && (
                     <button title={atomFeedTitle} className="c-themeswitcher" onClick={showRSSModal}>
                       <Icon sprite={IconRss} className="h-6 text-gray-500" />
@@ -55,6 +65,15 @@ export const Header = (props: HeaderProps) => {
               )}
               {!fider.session.isAuthenticated && (
                 <HStack spacing={2}>
+                  <a
+                    href="https://tradelineconsulting.com/portal"
+                    className="c-portal-link c-themeswitcher"
+                    title="Back to Portal"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Icon sprite={IconArrowLeftRect} className="h-6 text-gray-500" />
+                  </a>
                   {fider.session.tenant.isFeedEnabled && (
                     <button title={atomFeedTitle} className="c-themeswitcher" onClick={showRSSModal}>
                       <Icon sprite={IconRss} className="h-6 text-gray-500" />

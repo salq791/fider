@@ -1,4 +1,6 @@
 #c-header {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+
   .c-header__container {
     @media (min-width: 1024px) {
       position: relative;
@@ -15,5 +17,15 @@
       transform: translate(-50%, -50%);
       width: auto;
     }
+  }
+
+  .c-portal-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+  }
+
+  .c-button--primary {
+    border-radius: 9999px;
   }
 }
