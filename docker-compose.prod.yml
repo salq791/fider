@@ -1,0 +1,56 @@
+version: "3.8"
+
+services:
+  fider:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: fider
+    restart: unless-stopped
+    ports:
+      - "3200:3000"
+    environment:
+      BASE_URL: ${BASE_URL:-https://feedback.infosight.ca}
+      DATABASE_URL: postgres://fider:${DB_PASSWORD:-fider_secret}@fider-db:5432/fider?sslmode=disable
+      JWT_SECRET: ${JWT_SECRET}
+      GO_ENV: production
+
+      # Email (AWS SES)
+      EMAIL_SMTP_HOST: ${EMAIL_SMTP_HOST:-email-smtp.ca-central-1.amazonaws.com}
+      EMAIL_SMTP_PORT: ${EMAIL_SMTP_PORT:-587}
+      EMAIL_SMTP_USERNAME: ${EMAIL_SMTP_USERNAME}
+      EMAIL_SMTP_PASSWORD: ${EMAIL_SMTP_PASSWORD}
+      EMAIL_NOREPLY: ${EMAIL_NOREPLY:-do-not-reply@tradelineconsulting.com}
+      EMAIL_MAILGUN_API: ""
+      EMAIL_MAILGUN_DOMAIN: ""
+      EMAIL_MAILGUN_REGION: ""
+
+      # Native OAuth providers (leave blank — custom OAuth configured in admin UI after first run)
+      OAUTH_FACEBOOK_APPID: ""
+      OAUTH_FACEBOOK_SECRET: ""
+      OAUTH_GOOGLE_CLIENTID: ""
+      OAUTH_GOOGLE_SECRET: ""
+      OAUTH_GITHUB_CLIENTID: ""
+      OAUTH_GITHUB_SECRET: ""
+    depends_on:
+      fider-db:
+        condition: service_healthy
+
+  fider-db:
+    image: postgres:16-alpine
+    container_name: fider-db
+    restart: unless-stopped
+    volumes:
+      - fider-pg-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: fider
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-fider_secret}
+      POSTGRES_DB: fider
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U fider"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  fider-pg-data:
