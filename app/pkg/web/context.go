@@ -611,10 +611,10 @@ func LogoURL(ctx context.Context) string {
 		baseURL = env.Config.BaseURL
 	}
 	if baseURL == "" {
-		return "/static/logo.png"
+		return "/static/assets/logo.png"
 	}
 
-	return baseURL + "/static/logo.png"
+	return baseURL + "/static/assets/logo.png"
 }
 
 // BaseURL return the base URL from given context

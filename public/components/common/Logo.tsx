@@ -16,7 +16,7 @@ const defaultBrandAlt = "InfoSight"
 const DefaultBrandMark = ({ size }: { size: Size }) => {
   return (
     <span className="c-brand-logo c-brand-logo--mark" role="img" aria-label={defaultBrandAlt} style={{ width: size, height: size }}>
-      <img className="c-brand-logo__mark" src="/static/tradeline-mark.svg" alt="" height={size} width={size} />
+      <img className="c-brand-logo__mark" src="/static/assets/tradeline-mark.svg" alt="" height={size} width={size} />
     </span>
   )
 }
@@ -26,8 +26,8 @@ const DefaultBrandWordmark = ({ size }: { size: Size }) => {
 
   return (
     <span className="c-brand-logo c-brand-logo--wordmark" role="img" aria-label={defaultBrandAlt} style={{ height }}>
-      <img className="c-brand-logo__asset c-brand-logo__asset--light" src="/static/logo-dark.svg" alt="" />
-      <img className="c-brand-logo__asset c-brand-logo__asset--dark" src="/static/logo-light.svg" alt="" />
+      <img className="c-brand-logo__asset c-brand-logo__asset--light" src="/static/assets/logo-dark.svg" alt="" />
+      <img className="c-brand-logo__asset c-brand-logo__asset--dark" src="/static/assets/logo-light.svg" alt="" />
     </span>
   )
 }

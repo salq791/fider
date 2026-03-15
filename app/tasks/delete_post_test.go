@@ -77,7 +77,7 @@ func TestNotifyAboutDeletePostTask(t *testing.T) {
 		"siteName": "Demonstration",
 		"content":  template.HTML("<p>Invalid post!</p>"),
 		"change":   "<a href='http://domain.com/settings'>change your notification preferences</a>",
-		"logo":     "http://domain.com/static/logo.png",
+		"logo":     "http://domain.com/static/assets/logo.png",
 	})
 	Expect(emailmock.MessageHistory[0].From).Equals(dto.Recipient{
 		Name: "Jon Snow",
