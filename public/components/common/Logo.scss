@@ -1,0 +1,39 @@
+@use "~@fider/assets/styles/variables.scss" as *;
+
+.c-brand-logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  &--mark {
+    border-radius: get("border.radius.medium");
+    overflow: hidden;
+  }
+
+  &--wordmark {
+    position: relative;
+  }
+
+  &__mark,
+  &__asset {
+    display: block;
+    width: auto;
+    height: 100%;
+    max-width: 100%;
+  }
+
+  &__asset--dark {
+    display: none;
+  }
+}
+
+body[data-theme="dark"] {
+  .c-brand-logo__asset--light {
+    display: none;
+  }
+
+  .c-brand-logo__asset--dark {
+    display: block;
+  }
+}

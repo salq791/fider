@@ -5,7 +5,7 @@ import IconArrowLeft from "@fider/assets/images/heroicons-arrowleft.svg"
 
 import React, { useEffect, useState, useRef } from "react"
 import { Post, Tag, PostStatus } from "@fider/models"
-import { Markdown, Hint, PoweredByFider, Icon, Header, Button } from "@fider/components"
+import { Markdown, Hint, Icon, Header, Button } from "@fider/components"
 import { PostsContainer } from "./components/PostsContainer"
 import { useFider } from "@fider/hooks"
 import { HStack, VStack } from "@fider/components/layout"
@@ -57,35 +57,27 @@ const HomePage = (props: HomePageProps) => {
   const [savedSearch, setSavedSearch] = useState("")
 
   useEffect(() => {
-    // If we're showing the share feedback, make sure we clear the show pending flag (for draft posts)
-    if (isShareFeedbackOpen) {
-      if (isPostPending()) {
-        setPostPending(false)
-      }
+    if (isShareFeedbackOpen && isPostPending()) {
+      setPostPending(false)
     }
   })
 
-  // Handle post clicks from ListPosts
   const handlePostClick = (postNumber: number, slug: string) => {
-    // Save current scroll position and search params
     setSavedScrollPosition(window.scrollY)
     setSavedSearch(window.location.search)
     setSelectedPostId(postNumber)
-    setLastOpenedPostId(postNumber) // Track which post was opened
-    setIsPostDirty(false) // Reset dirty flag when opening overlay
+    setLastOpenedPostId(postNumber)
+    setIsPostDirty(false)
     window.history.pushState({ selectedPostId: postNumber }, "", `/posts/${postNumber}/${slug}`)
   }
 
-  // Handle closing the overlay
   const handleCloseOverlay = () => {
     setSelectedPostId(null)
     window.history.pushState({}, "", `/${savedSearch}`)
   }
 
-  // Track which post was opened so we can update just that one
   const [lastOpenedPostId, setLastOpenedPostId] = useState<number | null>(null)
 
-  // Update single post when closing overlay if data changed, and always restore scroll
   useEffect(() => {
     if (selectedPostId === null && lastOpenedPostId !== null) {
       if (isPostDirty && postsContainerRef.current) {
@@ -94,30 +86,25 @@ const HomePage = (props: HomePageProps) => {
       }
       setLastOpenedPostId(null)
 
-      // Always restore scroll position when returning to home
       setTimeout(() => {
         window.scrollTo(0, savedScrollPosition)
       }, 0)
     }
   }, [selectedPostId, lastOpenedPostId, isPostDirty, savedScrollPosition])
 
-  // Handle browser back/forward buttons
   useEffect(() => {
     const handlePopState = () => {
       const path = window.location.pathname
       if (path === "/" || path === "") {
         setSelectedPostId(null)
-        // Scroll restoration is handled in the useEffect above
       } else if (path.startsWith("/posts/")) {
-        // Save scroll position and search params before opening post
         setSavedScrollPosition(window.scrollY)
         setSavedSearch(window.location.search)
-        // Extract post number from URL
         const match = path.match(/\/posts\/(\d+)/)
         if (match) {
           const postNumber = parseInt(match[1], 10)
           setSelectedPostId(postNumber)
-          setLastOpenedPostId(postNumber) // Track which post was opened
+          setLastOpenedPostId(postNumber)
         }
       }
     }
@@ -159,11 +146,10 @@ What can we do better? This is the place for you to vote, discuss and share idea
     let match: RegExpExecArray | null
 
     while ((match = regex.exec(text)) !== null) {
-      // Add text before the match
       if (match.index > currentIndex) {
         parts.push(<span key={currentIndex}>{text.slice(currentIndex, match.index)}</span>)
       }
-      // Add the highlighted text
+
       parts.push(
         <span key={match.index} className="header-emphasis">
           {match[1]}
@@ -172,7 +158,6 @@ What can we do better? This is the place for you to vote, discuss and share idea
       currentIndex = regex.lastIndex
     }
 
-    // Add remaining text
     if (currentIndex < text.length) {
       parts.push(<span key={currentIndex}>{text.slice(currentIndex)}</span>)
     }
@@ -199,13 +184,11 @@ What can we do better? This is the place for you to vote, discuss and share idea
           <div className="p-home__welcome-col">
             <VStack spacing={6}>
               <div>
+                <div className="p-home__welcome-label">InfoSight Feedback</div>
                 {fider.session.tenant.welcomeHeader && <h1 className="p-home__welcome-title mb-5">{parseWelcomeHeader(fider.session.tenant.welcomeHeader)}</h1>}
                 <Markdown className="p-home__welcome-body" text={fider.session.tenant.welcomeMessage || defaultWelcomeMessage} style="full" />
               </div>
             </VStack>
-            <div>
-              <PoweredByFider slot="home-input" className="sm:hidden md:hidden lg:block mt-3" />
-            </div>
           </div>
           <div className="p-home__posts-col">
             <button className="p-home__add-idea-btn" onClick={handleNewPost}>
@@ -225,7 +208,6 @@ What can we do better? This is the place for you to vote, discuss and share idea
                 onPostClick={handlePostClick}
               />
             )}
-            <PoweredByFider slot="home-footer" className="lg:hidden xl:hidden mt-8" />
           </div>
         </div>
         {selectedPostId !== null && (

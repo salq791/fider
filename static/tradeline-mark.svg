@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17.515 16" aria-hidden="true">
+  <defs>
+    <linearGradient id="tradeline-mark-gradient-1" x1="16.644" y1="0.567" x2="14.872" y2="16.769" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#cb2026"/>
+      <stop offset="1" stop-color="#2b3187"/>
+    </linearGradient>
+    <linearGradient id="tradeline-mark-gradient-2" x1="14.106" y1="-1.091" x2="12.334" y2="15.112" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#cb2026"/>
+      <stop offset="1" stop-color="#2b3187"/>
+    </linearGradient>
+    <linearGradient id="tradeline-mark-gradient-3" x1="5.353" y1="-2.047" x2="3.581" y2="14.154" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#cb2026"/>
+      <stop offset="1" stop-color="#2b3187"/>
+    </linearGradient>
+    <linearGradient id="tradeline-mark-gradient-4" x1="3.996" y1="-2.196" x2="2.224" y2="14.006" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#cb2026"/>
+      <stop offset="1" stop-color="#2b3187"/>
+    </linearGradient>
+    <linearGradient id="tradeline-mark-gradient-5" x1="2.915" y1="-2.312" x2="1.144" y2="13.887" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#cb2026"/>
+      <stop offset="1" stop-color="#2b3187"/>
+    </linearGradient>
+    <linearGradient id="tradeline-mark-gradient-6" x1="3.86" y1="-2.211" x2="2.088" y2="13.991" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#cb2026"/>
+      <stop offset="1" stop-color="#2b3187"/>
+    </linearGradient>
+    <linearGradient id="tradeline-mark-gradient-7" x1="5.033" y1="-2.082" x2="3.261" y2="14.119" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#cb2026"/>
+      <stop offset="1" stop-color="#2b3187"/>
+    </linearGradient>
+    <linearGradient id="tradeline-mark-gradient-8" x1="6.789" y1="-1.891" x2="5.017" y2="14.311" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#cb2026"/>
+      <stop offset="1" stop-color="#2b3187"/>
+    </linearGradient>
+  </defs>
+  <path fill="url(#tradeline-mark-gradient-1)" d="M17.378 2.276C16.97 1.105 15.698 0.339 13.892 0c0.84 0.324 1.426 0.819 1.657 1.481 0.769 2.208-2.37 3.985-7.403 5.738-0.645 0.225-1.283 0.413-1.91 0.569v0.532h-0.464v0.854h-0.794v0.684h0.469v0.174h1.007v1.234H5.22v-0.174h-0.728v0.174l0.001 0.457H3.708v0.771c1.215-0.234 2.482-0.572 3.767-1.02C13.93 9.225 18.364 5.107 17.378 2.276zM6.092 9.746V8.805h0.942v0.942H6.092zM7.66 10.944H6.954v-0.706H7.66v0.706zM7.66 8.509H7.189v-0.471H7.66v0.471zM8.788 10.266H8.318v-0.471h0.471v0.471z"/>
+  <path fill="url(#tradeline-mark-gradient-2)" d="M10.902 10.491V16l3.544-2.475-0.272-5.016c-0.947 0.702-2.048 1.372-3.272 1.982z"/>
+  <rect x="3.595" y="7.76" width="1.235" height="1.234" fill="url(#tradeline-mark-gradient-3)"/>
+  <rect x="2.13" y="11.378" width="0.688" height="0.688" fill="url(#tradeline-mark-gradient-4)"/>
+  <rect x="0.979" y="9.555" width="1.15" height="1.15" fill="url(#tradeline-mark-gradient-5)"/>
+  <rect x="2.48" y="7.309" width="0.611" height="0.611" fill="url(#tradeline-mark-gradient-6)"/>
+  <rect x="3.148" y="9.47" width="1.122" height="1.122" fill="url(#tradeline-mark-gradient-7)"/>
+  <path fill="url(#tradeline-mark-gradient-8)" d="M10.379 10.705s-3.354 1.716-8.734 2.729L0 14.762s7.721-1.35 10.379-4.057z"/>
+</svg>

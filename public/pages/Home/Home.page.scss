@@ -5,12 +5,12 @@
   grid-template-columns: 1fr;
   column-gap: 0;
   row-gap: spacing(8);
-  background-color: var(--colors-gray-100);
+  background-color: var(--colors-gray-50);
   padding-top: spacing(12);
   padding-bottom: spacing(12);
 
   @include media("lg") {
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr) minmax(0, 1.1fr);
     column-gap: spacing(8);
     row-gap: 0;
   }
@@ -28,22 +28,34 @@
       }
     }
 
+    &__welcome-label {
+      margin-bottom: spacing(3);
+      font-size: 11px;
+      line-height: 1;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--colors-gray-600);
+    }
+
     &__welcome-title {
-      font-size: 32px;
+      font-size: 34px;
       font-weight: get("font.weight.xbold");
-      line-height: 1.2;
+      line-height: 1.08;
       color: var(--colors-gray-900);
-      letter-spacing: -0.5px;
+      letter-spacing: -0.04em;
 
       @include media("lg") {
-        font-size: 36px;
+        font-size: 42px;
       }
     }
 
     &__welcome-body {
-      // font-size: get("font.size.lg");
-      line-height: 1.6;
-      // color: var(--colors-gray-700);
+      line-height: 1.7;
+      color: var(--colors-gray-700);
+
+      p {
+        margin-bottom: spacing(4);
+      }
     }
 
     &__posts-col {
@@ -56,21 +68,22 @@
       padding: spacing(5);
       background-color: var(--colors-white);
       border: 1px solid var(--colors-gray-200);
-      border-radius: get("border.radius.xlarge");
-      box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+      border-radius: get("border.radius.medium");
+      box-shadow: none;
       cursor: pointer;
-      transition: box-shadow 0.2s ease-in-out;
+      transition: border-color 0.15s ease, background-color 0.15s ease;
       font-size: get("font.size.lg");
       font-weight: get("font.weight.medium");
       color: var(--colors-gray-700);
       text-align: left;
 
       @include dark-mode {
-        background-color: var(--colors-gray-200);
+        background-color: var(--colors-gray-100);
       }
 
       &:hover {
-        box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        background-color: var(--colors-gray-50);
+        border-color: var(--colors-blue-300);
       }
 
       &:focus {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { SignInControl, Button, DisplayError, Form, Input, Message, LegalAgreement } from "@fider/components"
+import { SignInControl, Button, DisplayError, Form, Input, Message, LegalAgreement, TenantLogo } from "@fider/components"
 import { jwt, actions, Failure, querystring, Fider } from "@fider/services"
 import { Divider } from "@fider/components/layout"
 import { useFider } from "@fider/hooks"
@@ -99,8 +99,8 @@ const SignUpPage = () => {
 
   return (
     <div id="p-signup" className="page container w-max-6xl">
-      <div className="h-20 text-center mb-4">
-        <img className="logo" alt="Logo" src="https://login.fider.io/static/assets/logo.png" />
+      <div className="h-20 text-center mb-4 flex flex-center">
+        <TenantLogo size={100} useFiderIfEmpty={true} />
       </div>
 
       <h3 className="text-display mb-2">1. Who are you?</h3>

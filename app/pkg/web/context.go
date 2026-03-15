@@ -605,7 +605,16 @@ func LogoURL(ctx context.Context) string {
 	if hasTenant && tenant.LogoBlobKey != "" {
 		return AssetsURL(ctx, "/static/images/%s?size=200", tenant.LogoBlobKey)
 	}
-	return "https://login.fider.io/static/assets/logo.png"
+
+	baseURL := BaseURL(ctx)
+	if baseURL == "" {
+		baseURL = env.Config.BaseURL
+	}
+	if baseURL == "" {
+		return "/static/logo.png"
+	}
+
+	return baseURL + "/static/logo.png"
 }
 
 // BaseURL return the base URL from given context
