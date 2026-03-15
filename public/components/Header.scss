@@ -18,11 +18,17 @@
     color: inherit;
   }
 
+  .c-header__left {
+    display: flex;
+    align-items: center;
+    gap: spacing(6);
+    min-width: 0;
+  }
+
   .c-header__home-link {
     color: var(--colors-gray-600);
     font-size: 14px;
     font-weight: get("font.weight.medium");
-    margin-left: spacing(6);
     text-decoration: none;
     transition: color 0.15s ease;
 

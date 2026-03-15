@@ -45,23 +45,25 @@ export const Header = (props: HeaderProps) => {
         <div className="container c-header__container">
           <div className="flex flex-wrap flex-items-center gap-2">
             <div className="flex flex-x flex-items-center justify-between w-full gap-3">
-              <a href="/" className="c-header__brand">
-                <span className="c-header__brand-mark">
-                  <TenantLogo size={24} useFiderIfEmpty={true} />
-                </span>
-                <span className="c-header__brand-copy">
-                  <span className="c-header__brand-label">Tradeline Feedback</span>
-                  <h1 className="c-header__brand-title">{fider.session.tenant.name}</h1>
-                </span>
-              </a>
-              <a
-                href="https://tradelineconsulting.com"
-                className="c-header__home-link"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Home
-              </a>
+              <div className="c-header__left">
+                <a href="/" className="c-header__brand">
+                  <span className="c-header__brand-mark">
+                    <TenantLogo size={24} useFiderIfEmpty={true} />
+                  </span>
+                  <span className="c-header__brand-copy">
+                    <span className="c-header__brand-label">Tradeline Feedback</span>
+                    <h1 className="c-header__brand-title">{fider.session.tenant.name}</h1>
+                  </span>
+                </a>
+                <a
+                  href="https://tradelineconsulting.com"
+                  className="c-header__home-link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Home
+                </a>
+              </div>
               {fider.session.isAuthenticated && (
                 <HStack spacing={2}>
                   <a
