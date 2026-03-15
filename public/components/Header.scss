@@ -18,6 +18,19 @@
     color: inherit;
   }
 
+  .c-header__home-link {
+    color: var(--colors-gray-600);
+    font-size: 14px;
+    font-weight: get("font.weight.medium");
+    margin-left: spacing(6);
+    text-decoration: none;
+    transition: color 0.15s ease;
+
+    &:hover {
+      color: var(--colors-primary-base);
+    }
+  }
+
   .c-header__brand-mark {
     display: inline-flex;
     align-items: center;

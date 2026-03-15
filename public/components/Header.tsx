@@ -54,6 +54,14 @@ export const Header = (props: HeaderProps) => {
                   <h1 className="c-header__brand-title">{fider.session.tenant.name}</h1>
                 </span>
               </a>
+              <a
+                href="https://tradelineconsulting.com"
+                className="c-header__home-link"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Home
+              </a>
               {fider.session.isAuthenticated && (
                 <HStack spacing={2}>
                   <a
