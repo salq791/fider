@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"net/http"
+	"net/url"
 	"strings"
 	"time"
 
@@ -23,8 +24,19 @@ import (
 // SignInPage renders the sign in page
 func SignInPage() web.HandlerFunc {
 	return func(c *web.Context) error {
-
 		if c.Tenant().IsPrivate {
+			if !shouldShowManualSignIn(c) {
+				activeProviders := &query.ListActiveOAuthProviders{}
+				if err := bus.Dispatch(c, activeProviders); err != nil {
+					return c.Failure(err)
+				}
+
+				if len(activeProviders.Result) == 1 {
+					redirect := url.QueryEscape(resolveOAuthRedirectTarget(c))
+					return c.Redirect("/oauth/" + activeProviders.Result[0].Provider + "?redirect=" + redirect)
+				}
+			}
+
 			return c.Page(http.StatusOK, web.Props{
 				Page:  "SignIn/SignIn.page",
 				Title: "Sign in",
@@ -33,6 +45,29 @@ func SignInPage() web.HandlerFunc {
 
 		return c.Redirect(c.BaseURL())
 	}
+}
+
+func shouldShowManualSignIn(c *web.Context) bool {
+	return strings.EqualFold(c.QueryParam("login"), "email") ||
+		c.QueryParam("manual") == "1" ||
+		c.QueryParam("picker") == "1"
+}
+
+func resolveOAuthRedirectTarget(c *web.Context) string {
+	redirect := c.QueryParam("redirect")
+	if redirect == "" {
+		return c.BaseURL()
+	}
+
+	if strings.HasPrefix(redirect, "/") {
+		return c.BaseURL() + redirect
+	}
+
+	if redirect == c.BaseURL() || strings.HasPrefix(redirect, c.BaseURL()+"/") {
+		return redirect
+	}
+
+	return c.BaseURL()
 }
 
 func LoginEmailSentPage() web.HandlerFunc {

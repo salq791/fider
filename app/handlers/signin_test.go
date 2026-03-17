@@ -13,6 +13,7 @@ import (
 
 	"github.com/getfider/fider/app/handlers"
 	"github.com/getfider/fider/app/models/cmd"
+	"github.com/getfider/fider/app/models/dto"
 	"github.com/getfider/fider/app/models/entity"
 	"github.com/getfider/fider/app/models/enum"
 	"github.com/getfider/fider/app/models/query"
@@ -780,6 +781,71 @@ func TestSignInPageHandler_PrivateTenant_UnauthenticatedUser(t *testing.T) {
 	code, _ := server.
 		OnTenant(mock.DemoTenant).
 		WithURL("http://demo.test.fider.io/signin").
+		Execute(handlers.SignInPage())
+
+	Expect(code).Equals(http.StatusOK)
+}
+
+func TestSignInPageHandler_PrivateTenant_SingleOAuthProviderRedirects(t *testing.T) {
+	RegisterT(t)
+
+	bus.AddHandler(func(ctx context.Context, q *query.ListActiveOAuthProviders) error {
+		q.Result = []*dto.OAuthProviderOption{
+			{Provider: "tradeline", DisplayName: "Tradeline User Login", IsEnabled: true},
+		}
+		return nil
+	})
+
+	server := mock.NewServer()
+	mock.DemoTenant.IsPrivate = true
+
+	code, response := server.
+		OnTenant(mock.DemoTenant).
+		WithURL("http://demo.test.fider.io/signin").
+		Execute(handlers.SignInPage())
+
+	Expect(code).Equals(http.StatusTemporaryRedirect)
+	Expect(response.Header().Get("Location")).Equals("/oauth/tradeline?redirect=http%3A%2F%2Fdemo.test.fider.io")
+}
+
+func TestSignInPageHandler_PrivateTenant_SingleOAuthProviderHonorsRedirect(t *testing.T) {
+	RegisterT(t)
+
+	bus.AddHandler(func(ctx context.Context, q *query.ListActiveOAuthProviders) error {
+		q.Result = []*dto.OAuthProviderOption{
+			{Provider: "tradeline", DisplayName: "Tradeline User Login", IsEnabled: true},
+		}
+		return nil
+	})
+
+	server := mock.NewServer()
+	mock.DemoTenant.IsPrivate = true
+
+	code, response := server.
+		OnTenant(mock.DemoTenant).
+		WithURL("http://demo.test.fider.io/signin?redirect=%2Fposts%2F123").
+		Execute(handlers.SignInPage())
+
+	Expect(code).Equals(http.StatusTemporaryRedirect)
+	Expect(response.Header().Get("Location")).Equals("/oauth/tradeline?redirect=http%3A%2F%2Fdemo.test.fider.io%2Fposts%2F123")
+}
+
+func TestSignInPageHandler_PrivateTenant_ManualLoginBypassRendersPage(t *testing.T) {
+	RegisterT(t)
+
+	bus.AddHandler(func(ctx context.Context, q *query.ListActiveOAuthProviders) error {
+		q.Result = []*dto.OAuthProviderOption{
+			{Provider: "tradeline", DisplayName: "Tradeline User Login", IsEnabled: true},
+		}
+		return nil
+	})
+
+	server := mock.NewServer()
+	mock.DemoTenant.IsPrivate = true
+
+	code, _ := server.
+		OnTenant(mock.DemoTenant).
+		WithURL("http://demo.test.fider.io/signin?login=email").
 		Execute(handlers.SignInPage())
 
 	Expect(code).Equals(http.StatusOK)
