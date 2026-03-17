@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/getfider/fider/app/models/cmd"
@@ -12,6 +13,7 @@ import (
 	"github.com/getfider/fider/app/actions"
 	"github.com/getfider/fider/app/models/query"
 	"github.com/getfider/fider/app/pkg/bus"
+	"github.com/getfider/fider/app/pkg/env"
 	"github.com/getfider/fider/app/pkg/errors"
 	"github.com/getfider/fider/app/pkg/web"
 	webutil "github.com/getfider/fider/app/pkg/web/util"
@@ -384,7 +386,25 @@ func CompleteSignInProfile() web.HandlerFunc {
 // SignOut remove auth cookies
 func SignOut() web.HandlerFunc {
 	return func(c *web.Context) error {
+		redirect := c.QueryParam("redirect")
+		configuredRedirect := strings.TrimRight(env.Config.PostSignOutRedirectURL, "/")
+
+		switch {
+		case redirect == "":
+			if configuredRedirect != "" {
+				redirect = configuredRedirect
+			} else {
+				redirect = "/"
+			}
+		case redirect == c.BaseURL() || strings.HasPrefix(redirect, c.BaseURL()+"/"):
+			// Same-origin redirects are allowed.
+		case configuredRedirect != "" && (redirect == configuredRedirect || strings.HasPrefix(redirect, configuredRedirect+"/")):
+			// Explicitly configured post-signout return URL is allowed.
+		default:
+			return c.Forbidden()
+		}
+
 		c.RemoveCookie(web.CookieAuthName)
-		return c.Redirect("/")
+		return c.Redirect(redirect)
 	}
 }

@@ -21,6 +21,7 @@ import (
 	"github.com/getfider/fider/app/models/query"
 	. "github.com/getfider/fider/app/pkg/assert"
 	"github.com/getfider/fider/app/pkg/bus"
+	"github.com/getfider/fider/app/pkg/env"
 	"github.com/getfider/fider/app/pkg/jwt"
 	"github.com/getfider/fider/app/pkg/mock"
 	"github.com/getfider/fider/app/pkg/web"
@@ -51,6 +52,62 @@ func TestSignOutHandler(t *testing.T) {
 	Expect(response.Header().Get("Location")).Equals("/")
 	Expect(response.Header().Get("Set-Cookie")).ContainsSubstring(web.CookieAuthName + "=; Path=/; Expires=")
 	Expect(response.Header().Get("Set-Cookie")).ContainsSubstring("Max-Age=0; HttpOnly")
+}
+
+func TestSignOutHandler_WithConfiguredRedirect(t *testing.T) {
+	RegisterT(t)
+
+	originalRedirect := env.Config.PostSignOutRedirectURL
+	env.Config.PostSignOutRedirectURL = "https://tradelineconsulting.com"
+	defer func() {
+		env.Config.PostSignOutRedirectURL = originalRedirect
+	}()
+
+	server := mock.NewServer()
+	code, response := server.
+		WithURL("http://demo.test.fider.io/signout").
+		AddCookie(web.CookieAuthName, "some-value").
+		Execute(handlers.SignOut())
+
+	Expect(code).Equals(http.StatusTemporaryRedirect)
+	Expect(response.Header().Get("Location")).Equals("https://tradelineconsulting.com")
+}
+
+func TestSignOutHandler_WithAllowedRedirectParam(t *testing.T) {
+	RegisterT(t)
+
+	originalRedirect := env.Config.PostSignOutRedirectURL
+	env.Config.PostSignOutRedirectURL = "https://tradelineconsulting.com"
+	defer func() {
+		env.Config.PostSignOutRedirectURL = originalRedirect
+	}()
+
+	server := mock.NewServer()
+	code, response := server.
+		WithURL("http://demo.test.fider.io/signout?redirect=https://tradelineconsulting.com/portal").
+		AddCookie(web.CookieAuthName, "some-value").
+		Execute(handlers.SignOut())
+
+	Expect(code).Equals(http.StatusTemporaryRedirect)
+	Expect(response.Header().Get("Location")).Equals("https://tradelineconsulting.com/portal")
+}
+
+func TestSignOutHandler_WithForbiddenRedirectParam(t *testing.T) {
+	RegisterT(t)
+
+	originalRedirect := env.Config.PostSignOutRedirectURL
+	env.Config.PostSignOutRedirectURL = "https://tradelineconsulting.com"
+	defer func() {
+		env.Config.PostSignOutRedirectURL = originalRedirect
+	}()
+
+	server := mock.NewServer()
+	code, _ := server.
+		WithURL("http://demo.test.fider.io/signout?redirect=https://evil.com").
+		AddCookie(web.CookieAuthName, "some-value").
+		Execute(handlers.SignOut())
+
+	Expect(code).Equals(http.StatusForbidden)
 }
 
 func TestSignInByOAuthHandler_RootRedirect(t *testing.T) {

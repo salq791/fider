@@ -52,6 +52,7 @@ type config struct {
 	HostMode                    string `env:"HOST_MODE,default=single"`
 	HostDomain                  string `env:"HOST_DOMAIN"`
 	BaseURL                     string `env:"BASE_URL"`
+	PostSignOutRedirectURL      string `env:"POST_SIGNOUT_REDIRECT_URL"`
 	Locale                      string `env:"LOCALE,default=en"`
 	JWTSecret                   string `env:"JWT_SECRET,required"`
 	PostCreationWithTagsEnabled bool   `env:"POST_CREATION_WITH_TAGS_ENABLED,default=false"`
