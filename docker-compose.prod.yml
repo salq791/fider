@@ -5,19 +5,18 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: fider
     restart: unless-stopped
-    ports:
-      - "3200:3000"
+    expose:
+      - "3000"
     environment:
-      BASE_URL: ${BASE_URL:-https://feedback.infosight.ca}
+      BASE_URL: ${BASE_URL:-https://feedback.tradelineconsulting.com}
       DATABASE_URL: postgres://fider:${DB_PASSWORD:-fider_secret}@fider-db:5432/fider?sslmode=disable
       JWT_SECRET: ${JWT_SECRET}
       GO_ENV: production
 
-      # Email (AWS SES)
+      # Email (AWS SES) - port 2587 because netcup blocks 25/465/587
       EMAIL_SMTP_HOST: ${EMAIL_SMTP_HOST:-email-smtp.ca-central-1.amazonaws.com}
-      EMAIL_SMTP_PORT: ${EMAIL_SMTP_PORT:-587}
+      EMAIL_SMTP_PORT: ${EMAIL_SMTP_PORT:-2587}
       EMAIL_SMTP_USERNAME: ${EMAIL_SMTP_USERNAME}
       EMAIL_SMTP_PASSWORD: ${EMAIL_SMTP_PASSWORD}
       EMAIL_NOREPLY: ${EMAIL_NOREPLY:-do-not-reply@tradelineconsulting.com}
@@ -38,7 +37,6 @@ services:
 
   fider-db:
     image: postgres:16-alpine
-    container_name: fider-db
     restart: unless-stopped
     volumes:
       - fider-pg-data:/var/lib/postgresql/data
